@@ -1,5 +1,5 @@
 
-package bmail;
+package org.gp7.bmail;
 
 import java.awt.CardLayout;
 import javax.swing.JOptionPane;
@@ -696,7 +696,7 @@ public class Bmail extends javax.swing.JFrame {
    private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
        // check username and password against database
 		//if valid move to inbox
-		//if invalid 
+		//if invalid
 		JOptionPane.showMessageDialog(null, "Invalid username or password");
 		CardLayout card = (CardLayout)mainPanel.getLayout();
 		card.show(mainPanel, "inboxCard");
@@ -756,9 +756,9 @@ public class Bmail extends javax.swing.JFrame {
       // delete email opened
    }//GEN-LAST:event_deleteButtonOActionPerformed
 
-	
+
 	public static void main(String args[]) {
-		
+
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				new Bmail().setVisible(true);

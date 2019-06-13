@@ -1,4 +1,4 @@
-package org.gp7.email.clientTest;
+package org.gp7.bmail;
 
 import java.io.IOException;
 
@@ -24,4 +24,3 @@ public class RecieveEmailTest {
 	}
 
 }
-

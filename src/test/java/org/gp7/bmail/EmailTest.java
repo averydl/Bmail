@@ -1,4 +1,4 @@
-package org.gp7.email.client;
+package org.gp7.bmail;
 
 public class EmailTest {
 	public static void main(String[] args) {
