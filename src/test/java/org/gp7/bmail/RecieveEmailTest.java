@@ -6,18 +6,15 @@ import javax.mail.MessagingException;
 
 public class RecieveEmailTest {
 	public static void main(String[] args) {
-		 String host = null;// change accordingly
-	      String mailStoreType = null;
-	      String username = null;// change accordingly
-	      String password = null;// change accordingly
+		  String host = "pop.gmail.com"; // change accordingly
+	      String username = "group.seven.test@gmail.com";// change accordingly
+	      String password = "group7isthebest"; // change accordingly
 
 	      try {
-			RecieveEmail.check(host, mailStoreType, username, password);
+			RecieveEmail.check(host, username, password);
 		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

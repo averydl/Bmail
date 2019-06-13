@@ -17,52 +17,47 @@ import javax.mail.internet.MimeMultipart;
 
 public class RecieveEmail {
 
-	public static void check(String host, String type, String user, String password) throws MessagingException, IOException {
-		Properties props;
-		Session sess;
-
+	public static void check(String host, String user, String password) throws MessagingException, IOException {
 		//Going to need a constructor which uses a strategy to determine which connection is made
 		//Based on address (@gmail.com, etc.)
-		props = new Properties();
+		Properties props = new Properties();
 
 		//second param is host(pop.gmail.com)
-		props.put("mail.pop3.host", "pop.gmail.com");
+		props.put("mail.pop3.host", host);
 		props.put("mail.pop3.port", "995");
 	    props.put("mail.pop3.starttls.enable", "true");
 
-		//This section is dependent on javax.activation.
-		//@Todo: look into a way around this since it's deprecated as of Java9
-		javax.mail.Authenticator auth = new javax.mail.Authenticator() {
-			protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
-				return new javax.mail.PasswordAuthentication("group.seven.test@gmail.com", "group7isthebest");
-			}
-		};
 
-		sess = Session.getDefaultInstance(props,auth);
+		Session sess = Session.getDefaultInstance(props);
 		Store store = sess.getStore("pop3s");
 
-		store.connect("pop.gmail.com","group.seven.test@gmail.com",password);
+		store.connect(host, user, password);
 
 		//Unsure how to determine string param here.
-		Folder folder = store.getFolder("INBOX");
-		folder.open(Folder.READ_ONLY);
+		Folder[] folders = store.getDefaultFolder().list();
 
-		//Delivered to us in the form of an array of messages, very convenient!
-		Message[] messages = folder.getMessages();
-
-		//for each message, get subject, sender, and content
-		for(int i = 0; i < messages.length;i++) {
-			Message message = messages[i];
+		for(Folder folder : folders) {
+			System.out.println(folder);
 			System.out.println("---------------------------------");
-	        System.out.println("Email Number " + (i + 1));
-	        System.out.println("Subject: " + message.getSubject());
-	        System.out.println("From: " + message.getFrom()[0]);
-	        System.out.println("Text: " + getText(message));
-		}
+			System.out.println("---------------------------------");
+			folder.open(Folder.READ_ONLY);
 
-		//Passing false here allows us to keep the emails stored locally until expunged.
-		folder.close(false);
-		store.close();
+			//Delivered to us in the form of an array of messages, very convenient!
+			Message[] messages = folder.getMessages();
+			//for each message, get subject, sender, and content
+			for (int i = 0; i < messages.length; i++) {
+				Message message = messages[i];
+				System.out.println("---------------------------------");
+				System.out.println("Email Number " + (i + 1));
+				System.out.println("Subject: " + message.getSubject());
+				System.out.println("From: " + message.getFrom()[0]);
+				System.out.println("Text: " + getText(message));
+			}
+
+			//Passing false here allows us to keep the emails stored locally until expunged.
+			folder.close(false);
+			store.close();
+		}
 
 
 	}
