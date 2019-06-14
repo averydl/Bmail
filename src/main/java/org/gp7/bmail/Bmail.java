@@ -1,8 +1,6 @@
 
 package org.gp7.bmail;
 
-import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
-
 import java.awt.CardLayout;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -43,12 +41,16 @@ public class Bmail extends javax.swing.JFrame {
         usernameLabelR = new javax.swing.JLabel();
         usernameBoxR = new javax.swing.JTextField();
         passwordLabelR = new javax.swing.JLabel();
-        passwordBoxR1 = new javax.swing.JPasswordField();
-        passwordComfLabel = new javax.swing.JLabel();
-        passwordBoxR2 = new javax.swing.JPasswordField();
+        passwordBoxR = new javax.swing.JPasswordField();
         emailLabel = new javax.swing.JLabel();
+        emailPasswordBox = new javax.swing.JPasswordField();
         emailBox = new javax.swing.JTextField();
         submitButtonR = new javax.swing.JButton();
+        popServerBox = new javax.swing.JTextField();
+        smtpServerBox = new javax.swing.JTextField();
+        emailPasswordLabel = new javax.swing.JLabel();
+        popServerLabel = new javax.swing.JLabel();
+        smtpServerLabel = new javax.swing.JLabel();
         inboxCard = new javax.swing.JPanel();
         logoInbox = new javax.swing.JLabel();
         logoutButton = new javax.swing.JButton();
@@ -142,10 +144,9 @@ public class Bmail extends javax.swing.JFrame {
                             .addComponent(usernameBox)
                             .addComponent(passwordBox, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPanelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(submitButton)
-                        .addGap(58, 58, 58)))
-                .addContainerGap())
+                        .addGap(67, 67, 67)))
+                .addGap(0, 49, Short.MAX_VALUE))
         );
         loginPanelLayout.setVerticalGroup(
             loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -162,7 +163,7 @@ public class Bmail extends javax.swing.JFrame {
                     .addComponent(passwordLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(submitButton)
-                .addContainerGap())
+                .addGap(41, 41, 41))
         );
 
         javax.swing.GroupLayout loginCardLayout = new javax.swing.GroupLayout(loginCard);
@@ -180,9 +181,9 @@ public class Bmail extends javax.swing.JFrame {
                                 .addContainerGap()
                                 .addComponent(registerButton))
                             .addGroup(loginCardLayout.createSequentialGroup()
-                                .addContainerGap(219, Short.MAX_VALUE)
+                                .addContainerGap(200, Short.MAX_VALUE)
                                 .addComponent(loginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 196, Short.MAX_VALUE)))
+                        .addGap(0, 178, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         loginCardLayout.setVerticalGroup(
@@ -222,15 +223,11 @@ public class Bmail extends javax.swing.JFrame {
         usernameLabelR.setText("Username");
 
         passwordLabelR.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        passwordLabelR.setLabelFor(passwordBoxR1);
+        passwordLabelR.setLabelFor(passwordBoxR);
         passwordLabelR.setText("Password");
 
-        passwordComfLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        passwordComfLabel.setLabelFor(passwordBoxR2);
-        passwordComfLabel.setText("Confirm Password");
-
         emailLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        emailLabel.setLabelFor(emailBox);
+        emailLabel.setLabelFor(emailPasswordBox);
         emailLabel.setText("Email");
 
         submitButtonR.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -241,6 +238,18 @@ public class Bmail extends javax.swing.JFrame {
             }
         });
 
+        emailPasswordLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        emailPasswordLabel.setLabelFor(emailBox);
+        emailPasswordLabel.setText("Email Password");
+
+        popServerLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        popServerLabel.setLabelFor(emailBox);
+        popServerLabel.setText("POP Server");
+
+        smtpServerLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        smtpServerLabel.setLabelFor(emailBox);
+        smtpServerLabel.setText("SMTP Server");
+
         javax.swing.GroupLayout registerPanelLayout = new javax.swing.GroupLayout(registerPanel);
         registerPanel.setLayout(registerPanelLayout);
         registerPanelLayout.setHorizontalGroup(
@@ -248,22 +257,28 @@ public class Bmail extends javax.swing.JFrame {
             .addGroup(registerPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(usernameLabelR)
-                    .addComponent(passwordLabelR)
-                    .addComponent(passwordComfLabel)
-                    .addComponent(emailLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(registerLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
-                    .addComponent(usernameBoxR)
-                    .addComponent(passwordBoxR1, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
-                    .addComponent(passwordBoxR2, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
-                    .addComponent(emailBox))
+                    .addComponent(submitButtonR)
+                    .addGroup(registerPanelLayout.createSequentialGroup()
+                        .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(usernameLabelR)
+                            .addComponent(passwordLabelR)
+                            .addComponent(emailLabel)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, registerPanelLayout.createSequentialGroup()
+                                .addGap(29, 29, 29)
+                                .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(popServerLabel)
+                                    .addComponent(emailPasswordLabel)
+                                    .addComponent(smtpServerLabel))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(registerLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
+                            .addComponent(usernameBoxR)
+                            .addComponent(passwordBoxR, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
+                            .addComponent(emailPasswordBox, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
+                            .addComponent(emailBox)
+                            .addComponent(popServerBox, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(smtpServerBox, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap(39, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, registerPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(submitButtonR)
-                .addGap(97, 97, 97))
         );
         registerPanelLayout.setVerticalGroup(
             registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -276,19 +291,27 @@ public class Bmail extends javax.swing.JFrame {
                     .addComponent(usernameBoxR, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(passwordBoxR1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(passwordBoxR, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(passwordLabelR))
                 .addGap(18, 18, 18)
-                .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(passwordComfLabel)
-                    .addComponent(passwordBoxR2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(emailLabel)
                     .addComponent(emailBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
+                .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(emailPasswordBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(emailPasswordLabel))
+                .addGap(18, 18, 18)
+                .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(popServerBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(popServerLabel))
+                .addGap(18, 18, 18)
+                .addGroup(registerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(smtpServerBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(smtpServerLabel))
+                .addGap(18, 18, 18)
                 .addComponent(submitButtonR)
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout registerCardLayout = new javax.swing.GroupLayout(registerCard);
@@ -300,15 +323,15 @@ public class Bmail extends javax.swing.JFrame {
                 .addGroup(registerCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, registerCardLayout.createSequentialGroup()
                         .addComponent(homeButton)
-                        .addGap(0, 615, Short.MAX_VALUE))
+                        .addGap(0, 612, Short.MAX_VALUE))
                     .addGroup(registerCardLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(logoRegister)))
                 .addContainerGap())
             .addGroup(registerCardLayout.createSequentialGroup()
-                .addGap(171, 171, 171)
+                .addGap(185, 185, 185)
                 .addComponent(registerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(152, Short.MAX_VALUE))
         );
         registerCardLayout.setVerticalGroup(
             registerCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -317,7 +340,7 @@ public class Bmail extends javax.swing.JFrame {
                 .addComponent(logoRegister)
                 .addGap(35, 35, 35)
                 .addComponent(registerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addComponent(homeButton)
                 .addContainerGap())
         );
@@ -433,20 +456,19 @@ public class Bmail extends javax.swing.JFrame {
         inboxCardLayout.setHorizontalGroup(
             inboxCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(inboxCardLayout.createSequentialGroup()
-                .addGroup(inboxCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, inboxCardLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(logoutButton))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, inboxCardLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(inboxLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(logoInbox)))
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(logoutButton)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, inboxCardLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(inboxPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, inboxCardLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(inboxLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(logoInbox)
+                .addGap(46, 46, 46))
         );
         inboxCardLayout.setVerticalGroup(
             inboxCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -686,7 +708,7 @@ public class Bmail extends javax.swing.JFrame {
                 .addComponent(openLogo)
                 .addGap(44, 44, 44)
                 .addComponent(openPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
                 .addComponent(inboxButtonO)
                 .addContainerGap())
         );
@@ -701,12 +723,16 @@ public class Bmail extends javax.swing.JFrame {
    private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
        // check username and password against database
 		//if valid move to inbox
-		//if invalid
-		JOptionPane.showMessageDialog(null, "Invalid username or password");
-		CardLayout card = (CardLayout)mainPanel.getLayout();
-		card.show(mainPanel, "inboxCard");
-		updateEmails();
-		renderEmails();
+       // TODO: user authentication to replace placeholder 'if(true)'
+       if(true) {
+           CardLayout card = (CardLayout)mainPanel.getLayout();
+           card.show(mainPanel, "inboxCard");
+           updateEmails();
+           renderEmails();
+       } else {
+           //if invalid
+           JOptionPane.showMessageDialog(null, "Invalid username or password");
+       }
    }//GEN-LAST:event_submitButtonActionPerformed
 
    private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
@@ -718,16 +744,6 @@ public class Bmail extends javax.swing.JFrame {
       CardLayout card = (CardLayout)mainPanel.getLayout();
 		card.show(mainPanel, "loginCard");
    }//GEN-LAST:event_homeButtonActionPerformed
-
-   private void submitButtonRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonRActionPerformed
-      // check if user is in database yet
-		JOptionPane.showMessageDialog(null, "Username is taken.");
-		usernameBoxR.setText("");
-		passwordBoxR1.setText("");
-		passwordBoxR2.setText("");
-		emailBox.setText("");
-		//if not add them and go to inbox
-   }//GEN-LAST:event_submitButtonRActionPerformed
 
    private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
       CardLayout card = (CardLayout)mainPanel.getLayout();
@@ -779,6 +795,29 @@ public class Bmail extends javax.swing.JFrame {
       // delete email opened
    }//GEN-LAST:event_deleteButtonOActionPerformed
 
+    private void submitButtonRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonRActionPerformed
+        // check if user is in database yet
+        // TODO: existing user check to replace place-holder 'if(false)'
+        if(false) {
+            JOptionPane.showMessageDialog(null, "Username is taken.");
+        } else {
+            new User(usernameBoxR.getText(), new String(passwordBoxR.getPassword()), emailBox.getText(), new String(emailPasswordBox.getPassword()), popServerBox.getText(), smtpServerBox.getText());
+            usernameBoxR.setText("");
+            passwordBoxR.setText("");
+            emailBox.setText("");
+            emailPasswordBox.setText("");
+            popServerBox.setText("");
+            smtpServerBox.setText("");
+            CardLayout card = (CardLayout)mainPanel.getLayout();
+            card.show(mainPanel, "inboxCard");
+            updateEmails();
+            renderEmails();
+            //if not add them, create user config file, and go to inbox
+        }
+
+
+    }//GEN-LAST:event_submitButtonRActionPerformed
+
     private void updateEmails() {
         try {
             emails = ReceiveEmail.check(new User(new File(System.getProperty("user.dir") + "/config.txt")));
@@ -816,6 +855,8 @@ public class Bmail extends javax.swing.JFrame {
     private javax.swing.JButton deleteButtonO;
     private javax.swing.JTextField emailBox;
     private javax.swing.JLabel emailLabel;
+    private javax.swing.JPasswordField emailPasswordBox;
+    private javax.swing.JLabel emailPasswordLabel;
     private javax.swing.JTextField fromBox;
     private javax.swing.JLabel fromLabel;
     private javax.swing.JButton homeButton;
@@ -845,16 +886,18 @@ public class Bmail extends javax.swing.JFrame {
     private javax.swing.JLabel openLogo;
     private javax.swing.JPanel openPanel;
     private javax.swing.JPasswordField passwordBox;
-    private javax.swing.JPasswordField passwordBoxR1;
-    private javax.swing.JPasswordField passwordBoxR2;
-    private javax.swing.JLabel passwordComfLabel;
+    private javax.swing.JPasswordField passwordBoxR;
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JLabel passwordLabelR;
+    private javax.swing.JTextField popServerBox;
+    private javax.swing.JLabel popServerLabel;
     private javax.swing.JButton registerButton;
     private javax.swing.JPanel registerCard;
     private javax.swing.JLabel registerLabel;
     private javax.swing.JPanel registerPanel;
     private javax.swing.JButton sendButton;
+    private javax.swing.JTextField smtpServerBox;
+    private javax.swing.JLabel smtpServerLabel;
     private javax.swing.JTextField subjectBox;
     private javax.swing.JTextField subjectBoxO;
     private javax.swing.JLabel subjectLabel;
