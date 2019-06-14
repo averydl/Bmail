@@ -1,3 +1,5 @@
+package org.gp7.bmail;
+
 import com.google.gson.Gson;
 
 import java.io.PrintWriter;
@@ -8,21 +10,20 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class User {
-    private static final String PROTOCOL = "imap";
-    private static boolean CONFIG_FILE_EXISTS = false;
-
     private String username;
     private String password;
     private String email;
     private String emailPassword;
-    private String emailServer;
+    private String popServer;
+    private String smtpServer;
 
-    public User(String username, String password, String email, String emailPassword, String emailServer) {
+    public User(String username, String password, String email, String emailPassword, String popServer, String smtpServer) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.emailPassword = emailPassword;
-        this.emailServer = emailServer;
+        this.popServer = popServer;
+        this.smtpServer = smtpServer;
 
         // attempt to store user information in config file
         try {
@@ -32,15 +33,14 @@ public class User {
             PrintWriter writer = new PrintWriter(file);
             writer.write(config);
             writer.close();
-            CONFIG_FILE_EXISTS = true;
         } catch(IOException ioe) {
             ioe.printStackTrace();
         }
     }
 
-    public User(File file) throws FileNotFoundException {
+    public User() throws FileNotFoundException {
         // read file contents to string
-        Scanner input = new Scanner(file);
+        Scanner input = new Scanner(new File("config.txt"));
         StringBuilder strBuilder = new StringBuilder();
         while (input.hasNext()) {
             strBuilder.append(input.next());
@@ -55,11 +55,8 @@ public class User {
         this.password = u.getPassword();
         this.email = u.getEmail();
         this.emailPassword = u.getEmailPassword();
-        this.emailServer = u.getEmailServer();
-    }
-
-    public static String getPROTOCOL() {
-        return PROTOCOL;
+        this.popServer = u.getPopServer();
+        this.smtpServer = u.getSmtpServer();
     }
 
     public String getUsername() {
@@ -94,11 +91,19 @@ public class User {
         this.emailPassword = emailPassword;
     }
 
-    public String getEmailServer() {
-        return emailServer;
+    public String getPopServer() {
+        return popServer;
     }
 
-    public void setEmailServer(String emailServer) {
-        this.emailServer = emailServer;
+    public void setPopServer(String popServer) {
+        this.popServer = popServer;
+    }
+
+    public String getSmtpServer() {
+        return smtpServer;
+    }
+
+    public void setSmtpServer(String smtpServer) {
+        this.smtpServer = smtpServer;
     }
 }
