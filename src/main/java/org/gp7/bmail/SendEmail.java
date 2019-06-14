@@ -36,7 +36,7 @@ public class SendEmail {
 		//Using the properties we defined in props, and the authentication details, we define
 		//a session sess.
 		//Once provided with these details, the session will persist as long as the client is logged in.
-		Session sess = Session.getDefaultInstance(props, auth);
+		Session sess = Session.getInstance(props, auth);
 
 		try {
 			Message message = new MimeMessage(sess);

@@ -1,13 +1,17 @@
 
 package org.gp7.bmail;
 
+import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
+
 import java.awt.CardLayout;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class Bmail extends javax.swing.JFrame {
-
+    private Email[] emails;
 	public Bmail() {
 		initComponents();
 	}
@@ -89,7 +93,7 @@ public class Bmail extends javax.swing.JFrame {
 
         loginCard.setBackground(new java.awt.Color(204, 204, 255));
 
-        logoLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/gp7/bmail/resources/BmailLogoSmall.png"))); // NOI18N
+//        logoLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/gp7/bmail/resources/BmailLogoSmall.png"))); // NOI18N
 
         registerButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         registerButton.setText("Register");
@@ -197,7 +201,7 @@ public class Bmail extends javax.swing.JFrame {
 
         registerCard.setBackground(new java.awt.Color(204, 204, 255));
 
-        logoRegister.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/gp7/bmail/resources/BmailLogoSmall.png"))); // NOI18N
+//        logoRegister.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/gp7/bmail/resources/BmailLogoSmall.png"))); // NOI18N
 
         homeButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         homeButton.setText("Home");
@@ -322,7 +326,7 @@ public class Bmail extends javax.swing.JFrame {
 
         inboxCard.setBackground(new java.awt.Color(204, 204, 255));
 
-        logoInbox.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/gp7/bmail/resources/BmailLogoSmall.png"))); // NOI18N
+//        logoInbox.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/gp7/bmail/resources/BmailLogoSmall.png"))); // NOI18N
 
         logoutButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         logoutButton.setText("Log Out");
@@ -462,7 +466,7 @@ public class Bmail extends javax.swing.JFrame {
 
         composeCard.setBackground(new java.awt.Color(204, 204, 255));
 
-        composeLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/gp7/bmail/resources/BmailLogoSmall.png"))); // NOI18N
+//        composeLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/gp7/bmail/resources/BmailLogoSmall.png"))); // NOI18N
 
         inboxButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         inboxButton.setText("Inbox");
@@ -581,7 +585,7 @@ public class Bmail extends javax.swing.JFrame {
 
         openCard.setBackground(new java.awt.Color(204, 204, 255));
 
-        openLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/gp7/bmail/resources/BmailLogoSmall.png"))); // NOI18N
+//        openLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/gp7/bmail/resources/BmailLogoSmall.png"))); // NOI18N
 
         inboxButtonO.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         inboxButtonO.setText("Inbox");
@@ -701,6 +705,8 @@ public class Bmail extends javax.swing.JFrame {
 		JOptionPane.showMessageDialog(null, "Invalid username or password");
 		CardLayout card = (CardLayout)mainPanel.getLayout();
 		card.show(mainPanel, "inboxCard");
+		updateEmails();
+		renderEmails();
    }//GEN-LAST:event_submitButtonActionPerformed
 
    private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
@@ -736,11 +742,16 @@ public class Bmail extends javax.swing.JFrame {
    private void openButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openButtonActionPerformed
       CardLayout card = (CardLayout)mainPanel.getLayout();
 		card.show(mainPanel, "openCard");
+		int emailNum = inboxTable.getSelectedRow();
+		fromBox.setText(emails[emailNum].getFrom());
+		subjectBoxO.setText(emails[emailNum].getSubject());
+		messageAreaO.setText(emails[emailNum].getContent());
    }//GEN-LAST:event_openButtonActionPerformed
 
    private void inboxButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inboxButtonActionPerformed
       CardLayout card = (CardLayout)mainPanel.getLayout();
 		card.show(mainPanel, "inboxCard");
+       renderEmails();
    }//GEN-LAST:event_inboxButtonActionPerformed
 
    private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
@@ -761,12 +772,30 @@ public class Bmail extends javax.swing.JFrame {
    private void inboxButtonOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inboxButtonOActionPerformed
       CardLayout card = (CardLayout)mainPanel.getLayout();
 		card.show(mainPanel, "inboxCard");
+		renderEmails();
    }//GEN-LAST:event_inboxButtonOActionPerformed
 
    private void deleteButtonOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonOActionPerformed
       // delete email opened
    }//GEN-LAST:event_deleteButtonOActionPerformed
 
+    private void updateEmails() {
+        try {
+            emails = ReceiveEmail.check(new User(new File(System.getProperty("user.dir") + "/config.txt")));
+        } catch(FileNotFoundException e) {
+            JOptionPane.showMessageDialog(null, "Could not find user config file");
+        } catch(Exception e) {
+            JOptionPane.showMessageDialog(null, "Could not retrieve emails");
+        }
+    }
+
+    private void renderEmails() {
+        for(int i = 0; i < 20 && i < emails.length; i++) {
+            inboxTable.getModel().setValueAt(emails[i].getFrom(), i, 0);
+            inboxTable.getModel().setValueAt(emails[i].getSubject(), i, 1);
+            inboxTable.getModel().setValueAt(emails[i].getContent(), i, 2);
+        }
+    }
 
 	public static void main(String args[]) {
 

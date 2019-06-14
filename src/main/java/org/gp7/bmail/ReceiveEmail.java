@@ -42,8 +42,8 @@ public class ReceiveEmail {
 			folder.open(Folder.READ_ONLY);
 			System.out.println(folder.getMessageCount());
 
-			// get most recent emails (up to a maximum of 10)
-			Message[] messages = folder.getMessages(1, Math.min(10, folder.getMessageCount()));
+			// get most recent emails (up to a maximum of 20)
+			Message[] messages = folder.getMessages(1, Math.min(20, folder.getMessageCount()));
 			// add all messages to messages list
 			for (int i = 0; i < messages.length; i++) {
 				Message message = messages[i];
