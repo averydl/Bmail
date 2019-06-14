@@ -1,6 +1,7 @@
 package org.gp7.bmail;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.mail.BodyPart;
@@ -17,13 +18,13 @@ import javax.mail.internet.MimeMultipart;
 
 public class ReceiveEmail {
 
-	public static void check(String host, String user, String password) throws MessagingException, IOException {
+	public static Email[] check(User user) throws MessagingException, IOException {
 		//Going to need a constructor which uses a strategy to determine which connection is made
 		//Based on address (@gmail.com, etc.)
 		Properties props = new Properties();
 
 		//second param is host(pop.gmail.com)
-		props.put("mail.pop3.host", host);
+		props.put("mail.pop3.host", user.getPopServer());
 		props.put("mail.pop3.port", "995");
 	    props.put("mail.pop3.starttls.enable", "true");
 
@@ -31,39 +32,41 @@ public class ReceiveEmail {
 		Session sess = Session.getDefaultInstance(props);
 		Store store = sess.getStore("pop3s");
 
-		store.connect(host, user, password);
+		store.connect(user.getPopServer(), user.getEmail(), user.getEmailPassword());
 
-		//Unsure how to determine string param here.
 		Folder[] folders = store.getDefaultFolder().list();
+		ArrayList<Email> emails = new ArrayList<>();
 
 		for(Folder folder : folders) {
-			System.out.println(folder);
-			System.out.println("---------------------------------");
-			System.out.println("---------------------------------");
 			folder.open(Folder.READ_ONLY);
 
-			//Delivered to us in the form of an array of messages, very convenient!
+			// Delivered to us in the form of an array of messages, very convenient!
 			Message[] messages = folder.getMessages();
-			//for each message, get subject, sender, and content
+			// add all messages to messages list
 			for (int i = 0; i < messages.length; i++) {
 				Message message = messages[i];
-				System.out.println("---------------------------------");
-				System.out.println("Email Number " + (i + 1));
-				System.out.println("Subject: " + message.getSubject());
-				System.out.println("From: " + message.getFrom()[0]);
-				System.out.println("Text: " + getText(message));
+				String subject =  message.getSubject();
+				String from = message.getFrom()[0].toString();
+				String content = getText(message);
+				emails.add(new Email(subject, from, content));
+
 			}
 
 			//Passing false here allows us to keep the emails stored locally until expunged.
 			folder.close(false);
 			store.close();
 		}
+		// copy emails to array
+		Email[] result = new Email[emails.size()];
+		for(int i = 0; i < emails.size(); i++) {
+			result[i] = emails.get(i);
+		}
 
-
+		return result;
 	}
 
 	//For some reason there's no way to guarantee that the information Message.getContent() returns
-	//is actually useful and readable. this private method goes through a lot of effort to return
+	//is actually useful and readable. this method goes through a lot of effort to return
 	//readable text.
 	private static String getText(Message message) throws MessagingException, IOException {
 	    String result = "";
