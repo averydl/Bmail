@@ -38,10 +38,12 @@ public class ReceiveEmail {
 		ArrayList<Email> emails = new ArrayList<>();
 
 		for(Folder folder : folders) {
+			System.out.println(folder);
 			folder.open(Folder.READ_ONLY);
+			System.out.println(folder.getMessageCount());
 
-			// Delivered to us in the form of an array of messages, very convenient!
-			Message[] messages = folder.getMessages();
+			// get most recent emails (up to a maximum of 10)
+			Message[] messages = folder.getMessages(1, Math.min(10, folder.getMessageCount()));
 			// add all messages to messages list
 			for (int i = 0; i < messages.length; i++) {
 				Message message = messages[i];
@@ -52,9 +54,9 @@ public class ReceiveEmail {
 
 			}
 
-			//Passing false here allows us to keep the emails stored locally until expunged.
-			folder.close(false);
-			store.close();
+//			//Passing false here allows us to keep the emails stored locally until expunged.
+//			folder.close(false);
+//			store.close();
 		}
 		// copy emails to array
 		Email[] result = new Email[emails.size()];
