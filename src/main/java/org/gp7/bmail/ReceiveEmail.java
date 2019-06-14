@@ -15,7 +15,7 @@ import javax.mail.Store;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-public class RecieveEmail {
+public class ReceiveEmail {
 
 	public static void check(String host, String user, String password) throws MessagingException, IOException {
 		//Going to need a constructor which uses a strategy to determine which connection is made
