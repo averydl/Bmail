@@ -29,7 +29,7 @@ public class User {
         try {
             Gson gson = new Gson();
             String config = gson.toJson(this);
-            FileWriter file = new FileWriter(new File("config.txt"));
+            FileWriter file = new FileWriter(new File(System.getProperty("user.dir") + "/config.txt"));
             PrintWriter writer = new PrintWriter(file);
             writer.write(config);
             writer.close();
@@ -38,9 +38,9 @@ public class User {
         }
     }
 
-    public User() throws FileNotFoundException {
+    public User(File file) throws FileNotFoundException {
         // read file contents to string
-        Scanner input = new Scanner(new File("config.txt"));
+        Scanner input = new Scanner(file);
         StringBuilder strBuilder = new StringBuilder();
         while (input.hasNext()) {
             strBuilder.append(input.next());
