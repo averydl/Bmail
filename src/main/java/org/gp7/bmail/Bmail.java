@@ -3,6 +3,8 @@ package org.gp7.bmail;
 
 import java.awt.CardLayout;
 import javax.swing.JOptionPane;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 public class Bmail extends javax.swing.JFrame {
 
@@ -742,9 +744,19 @@ public class Bmail extends javax.swing.JFrame {
    }//GEN-LAST:event_inboxButtonActionPerformed
 
    private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
-      //send email or
-		JOptionPane.showMessageDialog(null, "Email address is invalid");
-   }//GEN-LAST:event_sendButtonActionPerformed
+       // attempt to send email using current user configuration
+       System.out.println("send pressed");
+       System.out.println(toBox.getText());
+       System.out.println(subjectBox.getText());
+       System.out.println(messageArea.getText());
+       try {
+           SendEmail send = new SendEmail(new User(new File(System.getProperty("user.dir") + "/config.txt")), toBox.getText(), subjectBox.getText(), messageArea.getText());
+           toBox.setText("");
+           subjectBox.setText("");
+           messageArea.setText("");
+       } catch(FileNotFoundException e) {
+           JOptionPane.showMessageDialog(null, e);
+       }   }//GEN-LAST:event_sendButtonActionPerformed
 
    private void inboxButtonOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inboxButtonOActionPerformed
       CardLayout card = (CardLayout)mainPanel.getLayout();
